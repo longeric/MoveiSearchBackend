@@ -33,4 +33,4 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: bugtracker
+    artifactName: output
