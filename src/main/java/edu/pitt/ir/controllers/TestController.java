@@ -2,10 +2,7 @@ package edu.pitt.ir.controllers;
 
 import edu.pitt.ir.services.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,8 +23,14 @@ public class TestController {
     }
 
     @GetMapping(value = "searchResult")
-    public List<String> getSearchResult() {
-        return this.testService.getSearchResult();
+    public List<String> getSearchResult(@RequestParam("searchName") final String searchName) {
+        return this.testService.getSearchResult(searchName);
+    }
+
+    @GetMapping(value = "relevant")
+    public List<String> getRelevantResult(@RequestParam("searchName") final String searchName) {
+
+        return this.testService.getRelevantResult(searchName);
     }
 
 }
