@@ -19,7 +19,11 @@ public class TestService {
         return this.testRepositories.getString();
     }
 
-    public List<String> getSearchResult () {
-        return this.testRepositories.getSearchResult();
+    public List<String> getSearchResult (final String searchName) {
+        return this.testRepositories.getSearchResult(searchName);
+    }
+
+    public List<String> getRelevantResult(final String searchName) {
+        return this.testRepositories.getRelevantResult(searchName);
     }
 }
