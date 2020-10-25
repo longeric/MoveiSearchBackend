@@ -42,10 +42,9 @@ public class TestRepository {
 
     public List<String> getRelevantResult(final String searchName) {
 
-        String name = searchName.replaceAll("%20", " ").toLowerCase();
         // return a list which contains searchName to implement autocomplete
         return Arrays.stream(this.results)
-                .filter( result -> result.toLowerCase().contains(name))
+                .filter( result -> result.toLowerCase().contains(searchName))
                 .collect(Collectors.toList());
     }
 }

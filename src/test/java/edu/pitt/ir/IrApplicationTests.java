@@ -4,4 +4,10 @@ import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class IrApplicationTests { }
+public class IrApplicationTests {
+
+    @Test
+    public void test_Main () {
+        System.out.println("Main test works");
+    }
+}
