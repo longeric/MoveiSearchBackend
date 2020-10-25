@@ -4,9 +4,9 @@ import edu.pitt.ir.repositories.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TestService {
@@ -28,11 +28,12 @@ public class TestService {
     public List<String> getRelevantResult(final String searchName) {
         String[] searchTerms = searchName.split("%20");
 
-        HashSet<String> relevantResults = new HashSet<>();
-        for (String term: searchTerms) {
-            relevantResults.addAll(this.testRepositories.getRelevantResult(term.toLowerCase()));
-        }
-
-        return new ArrayList<>(relevantResults);
+        return Arrays.stream(searchTerms)
+                .parallel()
+                .map(String::toLowerCase)
+                .map(this.testRepositories::getRelevantResult)
+                .flatMap(List::stream)
+                .distinct()
+                .collect(Collectors.toList());
     }
 }
