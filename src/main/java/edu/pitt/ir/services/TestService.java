@@ -4,6 +4,8 @@ import edu.pitt.ir.repositories.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -24,6 +26,13 @@ public class TestService {
     }
 
     public List<String> getRelevantResult(final String searchName) {
-        return this.testRepositories.getRelevantResult(searchName);
+        String[] searchTerms = searchName.split("%20");
+
+        HashSet<String> relevantResults = new HashSet<>();
+        for (String term: searchTerms) {
+            relevantResults.addAll(this.testRepositories.getRelevantResult(term.toLowerCase()));
+        }
+
+        return new ArrayList<>(relevantResults);
     }
 }
