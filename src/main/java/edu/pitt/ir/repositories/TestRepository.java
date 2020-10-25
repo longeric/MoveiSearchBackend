@@ -34,8 +34,8 @@ public class TestRepository {
     public List<String> getSearchResult(String searchName) {
 
         // should return a list based on score
-
         return Arrays.stream(this.results)
+                .parallel()
                 .sorted()
                 .collect(Collectors.toList());
     }
@@ -44,6 +44,7 @@ public class TestRepository {
 
         // return a list which contains searchName to implement autocomplete
         return Arrays.stream(this.results)
+                .parallel()
                 .filter( result -> result.toLowerCase().contains(searchName))
                 .collect(Collectors.toList());
     }
