@@ -33,4 +33,9 @@ public class TestController {
         return this.testService.getRelevantResult(searchName);
     }
 
+    @GetMapping(value = "testFile")
+    public String getTxtFile() {
+        return this.testService.getTxtFile();
+    }
+
 }
