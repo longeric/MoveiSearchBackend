@@ -34,4 +34,18 @@ public class AzureBlob {
 
         return res;
     }
+
+    public boolean uploadFiles(String fileName, String content) {
+        CloudBlockBlob azureBlob = this.azureBlobBuilder.getBlockBlobClient(fileName);
+        try {
+            azureBlob.uploadText(content);
+            return true;
+        } catch (StorageException e) {
+            log.error("invalid file name");
+        } catch (IOException e) {
+            log.error("cannot upload");
+        }
+
+        return false;
+    }
 }
