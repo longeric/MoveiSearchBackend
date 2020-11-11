@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "spring.azure.connectionKey",
+      "type": "java.lang.String",
+      "description": "Description for spring.azure.connectionKey."
+    },
+    {
+      "name": "spring.azure.containerName",
+      "type": "java.lang.String",
+      "description": "Description for spring.azure.containerName."
+    },
+    {
+      "name": "spring.azure.test.connectionKey",
+      "type": "java.lang.String",
+      "description": "Description for spring.azure.test.connectionKey."
+    },
+    {
+      "name": "spring.azure.test.containerName",
+      "type": "java.lang.String",
+      "description": "Description for spring.azure.test.containerName."
+    }
+  ] }

@@ -1,6 +1,7 @@
 package edu.pitt.ir.services;
 
 import edu.pitt.ir.repositories.TestRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class TestService {
     private final TestRepository testRepositories;
@@ -21,7 +23,7 @@ public class TestService {
         return this.testRepositories.getString();
     }
 
-    public List<String> getSearchResult (final String searchName) {
+    public List<String> getSearchResult(final String searchName) {
         return this.testRepositories.getSearchResult(searchName);
     }
 

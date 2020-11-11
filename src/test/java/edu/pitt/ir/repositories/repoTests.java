@@ -1,22 +1,21 @@
 package edu.pitt.ir.repositories;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
+@RunWith(SpringRunner.class)
 public class repoTests {
 
+    @Autowired
     private TestRepository testRepository;
-
-    @Before
-    public void setup() {
-        this.testRepository = new TestRepository();
-    }
 
     @Test
     public void test_GetString () {
@@ -40,14 +39,6 @@ public class repoTests {
         List<String> actualResult = this.testRepository.getRelevantResult("far");
         List<String> expectedResult = new ArrayList<>();
         expectedResult.add("Spider-Man: Far From Home");
-        Assert.assertEquals(expectedResult, actualResult);
-    }
-
-    @Test
-    public void test_GetTxtFile () {
-        String actualResult = this.testRepository.getTxtFile();
-        String expectedResult = "this is a test file";
-
         Assert.assertEquals(expectedResult, actualResult);
     }
 }
