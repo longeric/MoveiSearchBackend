@@ -58,12 +58,14 @@ public class TestRepository {
     public String getTxtFile() {
         BufferedReader bufferedReader = null;
         try {
-            bufferedReader = new BufferedReader(new FileReader("files//test.txt"));
+            bufferedReader = new BufferedReader(new FileReader(
+                    String.format("%s//files//test.txt", System.getProperty("user.dir"))
+            ));
         } catch (FileNotFoundException e) {
             log.error("cannot find file");
         }
 
-        if (bufferedReader == null) return "file cannot find";
+        if (bufferedReader == null) return "Working Directory = " + System.getProperty("user.dir");
 
         String res = null;
 
