@@ -26,11 +26,18 @@ public class azureBlobTests {
     }
 
     @Test
-    public void test_readFiles() {
+    public void test_ReadFiles() {
         String actualResult = this.azureBlob.readFiles("test.txt");
 
         String expectedResult = "[this, is, a, test, file, this, is, with, double, line]";
 
         Assert.assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void test_UploadFiles() {
+        boolean expectedResult = this.azureBlob.uploadFiles("test-upload.txt", "test");
+
+        Assert.assertTrue(expectedResult);
     }
 }
