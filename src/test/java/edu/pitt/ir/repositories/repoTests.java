@@ -42,4 +42,12 @@ public class repoTests {
         expectedResult.add("Spider-Man: Far From Home");
         Assert.assertEquals(expectedResult, actualResult);
     }
+
+    @Test
+    public void test_GetTxtFile () {
+        String actualResult = this.testRepository.getTxtFile();
+        String expectedResult = "this is a test file";
+
+        Assert.assertEquals(expectedResult, actualResult);
+    }
 }

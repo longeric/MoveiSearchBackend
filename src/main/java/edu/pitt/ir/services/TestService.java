@@ -36,4 +36,8 @@ public class TestService {
                 .distinct()
                 .collect(Collectors.toList());
     }
+
+    public String getTxtFile() {
+        return this.testRepositories.getTxtFile();
+    }
 }
