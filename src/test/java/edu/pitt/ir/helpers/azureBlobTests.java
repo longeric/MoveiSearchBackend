@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class azureBlobTests {
@@ -39,5 +42,16 @@ public class azureBlobTests {
         boolean expectedResult = this.azureBlob.uploadFiles("test-upload.txt", "test");
 
         Assert.assertTrue(expectedResult);
+    }
+
+    @Test
+    public void test_GetAllFileNames() {
+        List<String> actualResult = this.azureBlob.getAllFileNames();
+
+        List<String> expectedResult = new ArrayList<>();
+        expectedResult.add("test-upload.txt");
+        expectedResult.add("test.txt");
+
+        Assert.assertEquals(expectedResult, actualResult);
     }
 }
