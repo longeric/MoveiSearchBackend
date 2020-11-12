@@ -1,11 +1,16 @@
 package edu.pitt.ir.helpers;
 
 import com.microsoft.azure.storage.StorageException;
+import com.microsoft.azure.storage.blob.CloudBlob;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
+import com.microsoft.azure.storage.blob.ListBlobItem;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 public class AzureBlob {
@@ -47,5 +52,17 @@ public class AzureBlob {
         }
 
         return false;
+    }
+
+    public List<String> getAllFileNames() {
+        CloudBlobContainer cloudBlobContainer = this.azureBlobBuilder.getCloudBlobContainer();
+        ArrayList<String> fileNames = new ArrayList<>();
+        for (ListBlobItem listBlobItem : cloudBlobContainer.listBlobs()) {
+            CloudBlob cloudBlob = (CloudBlob) listBlobItem;
+
+            fileNames.add(cloudBlob.getName());
+        }
+
+        return fileNames;
     }
 }

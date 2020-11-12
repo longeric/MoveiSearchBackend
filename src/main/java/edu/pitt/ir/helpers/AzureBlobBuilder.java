@@ -67,5 +67,13 @@ public class AzureBlobBuilder {
         return this.cloudBlockBlob;
     }
 
+    public CloudBlobContainer getCloudBlobContainer() {
+        if (this.cloudBlobContainer == null) {
+            throw new RuntimeException("Cannot build because missing configs");
+        }
+
+        return this.cloudBlobContainer;
+    }
+
 
 }

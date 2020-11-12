@@ -66,4 +66,10 @@ public class TestRepository {
         return azureBlob.readFiles("15minutes_dialog.txt");
 
     }
+
+    public void getList() {
+        AzureBlob azureBlob = new AzureBlob(this.connectionString, this.containerName);
+
+        System.out.println(azureBlob.getAllFileNames().size());
+    }
 }
