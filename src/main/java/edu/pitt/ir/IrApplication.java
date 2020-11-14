@@ -1,9 +1,16 @@
 package edu.pitt.ir;
 
-import edu.pitt.ir.helpers.NormalizeText;
+import edu.pitt.ir.helpers.AzureHelper.AzureBlob;
+import edu.pitt.ir.helpers.LuenceHelper.LuenceIndexReader;
+import edu.pitt.ir.helpers.LuenceHelper.LuenceIndexWriter;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.store.RAMDirectory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import sun.jvm.hotspot.debugger.remote.amd64.RemoteAMD64Thread;
 
 import javax.annotation.PostConstruct;
 
@@ -24,4 +31,29 @@ public class IrApplication {
 //    public void normalize() {
 //        this.normalizeText.normalize();
 //    }
+
+
+    @Value("${spring.azure.connectionKey}")
+    private String connectionString;
+
+    @Value("${spring.azure.containerName}")
+    private String containerName;
+
+    @PostConstruct
+    public void findContent() {
+        Analyzer analyzer = new StandardAnalyzer();
+        RAMDirectory ramDirectory = new RAMDirectory();
+
+        AzureBlob azureBlob = new AzureBlob(this.connectionString, this.containerName);
+        LuenceIndexWriter luenceIndexWriter = new LuenceIndexWriter(azureBlob, ramDirectory, analyzer);
+        luenceIndexWriter.createIndex();
+
+        LuenceIndexReader luenceIndexReader = new LuenceIndexReader(ramDirectory, analyzer);
+        luenceIndexReader.searchContent("I am batman", 5);
+
+
+        analyzer.close();
+        ramDirectory.close();
+
+    }
 }

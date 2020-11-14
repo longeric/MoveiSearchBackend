@@ -1,6 +1,6 @@
 package edu.pitt.ir.repositories;
 
-import edu.pitt.ir.helpers.AzureBlob;
+import edu.pitt.ir.helpers.AzureHelper.AzureBlob;
 import edu.pitt.ir.models.TestDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,5 +1,6 @@
-package edu.pitt.ir.helpers;
+package edu.pitt.ir.helpers.LuenceHelper;
 
+import edu.pitt.ir.helpers.AzureHelper.AzureBlob;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -16,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Component
-public class NormalizeText {
+public class LuenceNormalizeText {
 
     @Value("${spring.azure.connectionKey}")
     private String connectionString;

@@ -1,4 +1,4 @@
-package edu.pitt.ir.helpers;
+package edu.pitt.ir.helpers.AzureHelper;
 
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
