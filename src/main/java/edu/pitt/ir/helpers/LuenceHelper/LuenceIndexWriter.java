@@ -53,9 +53,6 @@ public class LuenceIndexWriter {
             }
         });
 
-
-        System.out.println(this.ramDirectory.getChildResources().size());
-
         this.close();
     }
 

@@ -48,12 +48,6 @@ public class IrApplication {
         LuenceIndexWriter luenceIndexWriter = new LuenceIndexWriter(azureBlob, ramDirectory, analyzer);
         luenceIndexWriter.createIndex();
 
-        LuenceIndexReader luenceIndexReader = new LuenceIndexReader(ramDirectory, analyzer);
-        luenceIndexReader.searchContent("I am batman", 5);
-
-
-        analyzer.close();
-        ramDirectory.close();
-
+        LuenceIndexReader.getInstance(ramDirectory, analyzer);
     }
 }

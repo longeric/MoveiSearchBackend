@@ -46,4 +46,16 @@ public class serviceTests {
         Assert.assertEquals(expectedResult, actualResult);
 
     }
+
+    @Test
+    public void test_getQueryResultList() {
+        String content = "i%20am%20batman";
+        int topK = 5;
+        List<String> actualResult = this.testService.getQueryResultList(content, topK);
+
+        System.out.println(actualResult.toString());
+
+        Assert.assertEquals(actualResult.size(), topK);
+
+    }
 }

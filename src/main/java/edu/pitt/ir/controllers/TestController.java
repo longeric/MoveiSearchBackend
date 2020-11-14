@@ -12,6 +12,8 @@ import java.util.List;
 public class TestController {
     private final TestService testService;
 
+    private static final int TOPK = 10;
+
     @Autowired
     public TestController(final TestService testService) {
         this.testService = testService;
@@ -33,9 +35,9 @@ public class TestController {
         return this.testService.getRelevantResult(searchName);
     }
 
-    @GetMapping(value = "testFile")
-    public String getTxtFile() {
-        return this.testService.getTxtFile();
+    @GetMapping(value = "testQuery")
+    public List<String> getQueryResultList(@RequestParam("searchName") final String content) {
+        return this.testService.getQueryResultList(content, TOPK);
     }
 
 }
