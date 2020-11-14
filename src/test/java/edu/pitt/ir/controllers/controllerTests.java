@@ -60,7 +60,7 @@ public class controllerTests {
         String content = "the%20Far%20lion";
         List<String> actualResult = this.testController.getQueryResultList(content);
 
-        Assert.assertEquals(actualResult.size(), 10);
+        Assert.assertEquals(actualResult.size(), 100);
     }
 
 
