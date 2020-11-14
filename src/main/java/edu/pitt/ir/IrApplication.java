@@ -36,7 +36,7 @@ public class IrApplication {
     @Value("${spring.azure.connectionKey}")
     private String connectionString;
 
-    @Value("${spring.azure.containerName}")
+    @Value("${spring.azure.containerAfterNormalizeName}")
     private String containerName;
 
     @PostConstruct

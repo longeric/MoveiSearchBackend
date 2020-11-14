@@ -25,13 +25,16 @@ public class LuenceNormalizeText {
     @Value("${spring.azure.containerName}")
     private String containerName;
 
+    @Value("${spring.azure.containerAfterNormalizeName}")
+    private String containerAfterNormalizeName;
+
     public void normalize() {
         AzureBlob azureBlob = new AzureBlob(this.connectionString, this.containerName);
         List<String> blobNames = azureBlob.getAllFileNames();
 
         int totalBlob = blobNames.size();
 
-        AzureBlob uploadAzureBlob = new AzureBlob(this.connectionString, "movie-dialog-after-stream");
+        AzureBlob uploadAzureBlob = new AzureBlob(this.connectionString, this.containerAfterNormalizeName);
 
         AtomicInteger atomicInteger = new AtomicInteger(0);
         blobNames.stream().parallel().forEach(name -> {
