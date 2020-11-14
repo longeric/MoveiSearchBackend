@@ -12,7 +12,7 @@ import java.util.List;
 public class TestController {
     private final TestService testService;
 
-    private static final int TOPK = 10;
+    private static final int TOPK = 100;
 
     @Autowired
     public TestController(final TestService testService) {
