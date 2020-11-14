@@ -4,12 +4,10 @@ import edu.pitt.ir.helpers.AzureHelper.AzureBlob;
 import edu.pitt.ir.helpers.LuenceHelper.LuenceIndexReader;
 import edu.pitt.ir.models.TestDAO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.search.ScoreDoc;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

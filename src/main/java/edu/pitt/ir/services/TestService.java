@@ -4,7 +4,6 @@ import edu.pitt.ir.helpers.LuenceHelper.LuenceIndexReader;
 import edu.pitt.ir.repositories.TestRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.search.ScoreDoc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
