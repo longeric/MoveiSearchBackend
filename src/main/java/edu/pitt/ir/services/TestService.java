@@ -1,10 +1,14 @@
 package edu.pitt.ir.services;
 
+import edu.pitt.ir.helpers.LuenceHelper.LuenceIndexReader;
 import edu.pitt.ir.repositories.TestRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.search.ScoreDoc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,7 +43,18 @@ public class TestService {
                 .collect(Collectors.toList());
     }
 
-    public String getTxtFile() {
-        return this.testRepositories.getTxtFile();
+    public List<String> getQueryResultList(String content, int topK) {
+        LuenceIndexReader luenceIndexReader = LuenceIndexReader.getInstance(null, null);
+        content = content.replaceAll("%20", " ");
+        return this.testRepositories.getQueryResultList(content, topK)
+                .stream().parallel()
+                .map(scoreDoc -> {
+                    try {
+                        Document document = luenceIndexReader.searcher.doc(scoreDoc.doc);
+                        return document.get("name");
+                    } catch (IOException e) {
+                        throw new NullPointerException("unable to find document");
+                    }
+                }).collect(Collectors.toList());
     }
 }

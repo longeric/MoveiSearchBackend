@@ -55,5 +55,13 @@ public class controllerTests {
         Assert.assertEquals(expectedResult, actualResult);
     }
 
+    @Test
+    public void test_GetQueryResult () {
+        String content = "the%20Far%20lion";
+        List<String> actualResult = this.testController.getQueryResultList(content);
+
+        Assert.assertEquals(actualResult.size(), 10);
+    }
+
 
 }

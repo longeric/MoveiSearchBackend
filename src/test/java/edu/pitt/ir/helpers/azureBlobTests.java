@@ -1,5 +1,6 @@
 package edu.pitt.ir.helpers;
 
+import edu.pitt.ir.helpers.AzureHelper.AzureBlob;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

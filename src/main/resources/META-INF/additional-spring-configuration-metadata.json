@@ -19,5 +19,10 @@
       "name": "spring.azure.test.containerName",
       "type": "java.lang.String",
       "description": "Description for spring.azure.test.containerName."
+    },
+    {
+      "name": "spring.azure.containerAfterNormalizeName",
+      "type": "java.lang.String",
+      "description": "Description for spring.azure.containerAfterNormalizeName."
     }
   ] }

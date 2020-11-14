@@ -1,5 +1,6 @@
-package edu.pitt.ir.helpers;
+package edu.pitt.ir.helpers.LuenceHelper;
 
+import edu.pitt.ir.helpers.AzureHelper.AzureBlob;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -16,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Component
-public class NormalizeText {
+public class LuenceNormalizeText {
 
     @Value("${spring.azure.connectionKey}")
     private String connectionString;
@@ -24,13 +25,16 @@ public class NormalizeText {
     @Value("${spring.azure.containerName}")
     private String containerName;
 
+    @Value("${spring.azure.containerAfterNormalizeName}")
+    private String containerAfterNormalizeName;
+
     public void normalize() {
         AzureBlob azureBlob = new AzureBlob(this.connectionString, this.containerName);
         List<String> blobNames = azureBlob.getAllFileNames();
 
         int totalBlob = blobNames.size();
 
-        AzureBlob uploadAzureBlob = new AzureBlob(this.connectionString, "movie-dialog-after-stream");
+        AzureBlob uploadAzureBlob = new AzureBlob(this.connectionString, this.containerAfterNormalizeName);
 
         AtomicInteger atomicInteger = new AtomicInteger(0);
         blobNames.stream().parallel().forEach(name -> {
