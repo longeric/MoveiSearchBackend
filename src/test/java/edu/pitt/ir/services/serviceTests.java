@@ -51,7 +51,7 @@ public class serviceTests {
     public void test_getQueryResultList() {
         String content = "i%20am%20batman";
         int topK = 5;
-        List<String> actualResult = this.testService.getQueryResultList(content, topK);
+        List<String> actualResult = this.testService.getFileNameList(content, topK);
 
         System.out.println(actualResult.toString());
 

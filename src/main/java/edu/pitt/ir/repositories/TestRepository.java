@@ -1,7 +1,7 @@
 package edu.pitt.ir.repositories;
 
-import edu.pitt.ir.helpers.AzureHelper.AzureBlob;
 import edu.pitt.ir.helpers.LuenceHelper.LuenceIndexReader;
+import edu.pitt.ir.models.QueryResult;
 import edu.pitt.ir.models.TestDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.search.ScoreDoc;
@@ -21,6 +21,8 @@ public class TestRepository {
 
     @Value("${spring.azure.containerName}")
     private String containerName;
+
+    private final LuenceIndexReader luenceIndexReader = LuenceIndexReader.getInstance();
 
     private final String[] results = {
             "Avengers: Endgame",
@@ -61,16 +63,11 @@ public class TestRepository {
                 .collect(Collectors.toList());
     }
 
-    public String getTxtFile() {
-
-        AzureBlob azureBlob = new AzureBlob(this.connectionString, this.containerName);
-
-        return azureBlob.readFiles("15minutes_dialog.txt");
-
+    public List<ScoreDoc> getScoreDocList(String content, int topK) {
+        return this.luenceIndexReader.searchContent(content, topK);
     }
 
-    public List<ScoreDoc> getQueryResultList(String content, int topK) {
-        LuenceIndexReader luenceIndexReader = LuenceIndexReader.getInstance(null, null);
-        return luenceIndexReader.searchContent(content, topK);
+    public List<QueryResult> getQueryResultList(String content, int topK) {
+        return this.luenceIndexReader.searchSummary(this.getScoreDocList(content, topK));
     }
 }

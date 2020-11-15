@@ -1,7 +1,7 @@
 package edu.pitt.ir.repositories;
 
 import edu.pitt.ir.helpers.LuenceHelper.LuenceIndexReader;
-import org.apache.lucene.document.Document;
+import edu.pitt.ir.models.QueryResult;
 import org.apache.lucene.search.ScoreDoc;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,25 +46,25 @@ public class repoTests {
     }
 
     @Test
-    public void test_getList() {
+    public void test_GetScoreDocList() {
         String content = "I am batman";
         int topK = 10;
-        List<ScoreDoc> actualResult = this.testRepository.getQueryResultList(content, topK);
-
-        LuenceIndexReader luenceIndexReader = LuenceIndexReader.getInstance(null, null);
-
-        System.out.println(String.format("query is %s", content));
-
-        actualResult.forEach(scoreDoc -> {
-            try {
-                Document document = luenceIndexReader.searcher.doc(scoreDoc.doc);
-                System.out.println(String.format("the document name is %s, the score is %s",
-                        document.get("name"), scoreDoc.score));
-            } catch (IOException e) {
-                System.out.println("unable to search");
-            }
-        });
+        List<ScoreDoc> actualResult = this.testRepository.getScoreDocList(content, topK);
 
         Assert.assertEquals(actualResult.size(), topK);
+    }
+
+    @Test
+    public void test_GetQueryResultList() {
+        String content = "I am batman";
+        int topK = 10;
+        List<ScoreDoc> scoreDocList = this.testRepository.getScoreDocList(content, topK);
+
+        LuenceIndexReader luenceIndexReader = LuenceIndexReader.getInstance();
+
+        List<QueryResult> actualResult = luenceIndexReader.searchSummary(scoreDocList);
+
+        Assert.assertEquals(actualResult.size(), 10);
+
     }
 }

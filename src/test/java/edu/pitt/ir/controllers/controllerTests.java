@@ -58,9 +58,9 @@ public class controllerTests {
     @Test
     public void test_GetQueryResult () {
         String content = "the%20Far%20lion";
-        List<String> actualResult = this.testController.getQueryResultList(content);
+        List<String> actualResult = this.testController.getFileNameList(content);
 
-        Assert.assertEquals(actualResult.size(), 100);
+        Assert.assertEquals(actualResult.size(), 50);
     }
 
 

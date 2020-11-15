@@ -4,10 +4,7 @@ import edu.pitt.ir.helpers.AzureHelper.AzureBlob;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -16,50 +13,49 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
-@Component
 public class LuenceNormalizeText {
 
-    @Value("${spring.azure.connectionKey}")
-    private String connectionString;
+    private final AzureBlob azureSearchBlob;
+    private final AzureBlob azureUploadBlob;
+    private final Analyzer analyzer;
 
-    @Value("${spring.azure.containerName}")
-    private String containerName;
-
-    @Value("${spring.azure.containerAfterNormalizeName}")
-    private String containerAfterNormalizeName;
+    public LuenceNormalizeText(String search_connectionString, String search_containerName,
+                               String upload_connectionString, String upload_containerName,
+                               Analyzer analyzer) {
+        this.azureSearchBlob = new AzureBlob(search_connectionString, search_containerName);
+        this.azureUploadBlob = new AzureBlob(upload_connectionString, upload_containerName);
+        this.analyzer = analyzer;
+    }
 
     public void normalize() {
-        AzureBlob azureBlob = new AzureBlob(this.connectionString, this.containerName);
-        List<String> blobNames = azureBlob.getAllFileNames();
+        List<String> blobNames = this.azureSearchBlob.getAllFileNames();
 
         int totalBlob = blobNames.size();
 
-        AzureBlob uploadAzureBlob = new AzureBlob(this.connectionString, this.containerAfterNormalizeName);
-
         AtomicInteger atomicInteger = new AtomicInteger(0);
         blobNames.stream().parallel().forEach(name -> {
-            String content = azureBlob.readFiles(name).replaceAll(",", "");
+            String content = this.azureSearchBlob.readFiles(name);
 
             List<String> tokens = new ArrayList<>();
 
-            Analyzer analyzer = new StandardAnalyzer();
-
             try {
-                TokenStream tokenStream  = analyzer.tokenStream(null, new StringReader(content));
+                TokenStream tokenStream  = this.analyzer.tokenStream("content", new StringReader(content));
                 tokenStream.reset();
                 while (tokenStream.incrementToken()) {
                     tokens.add(tokenStream.getAttribute(CharTermAttribute.class).toString());
                 }
+
+                tokenStream.close();
             } catch (IOException e) {
                 throw new RuntimeException("cannot stream");
             }
 
             String fileContent = tokens.toString().replaceAll(",", "");
-            uploadAzureBlob.uploadFiles(String.format("after_normalize_%s", name), fileContent.substring(1, fileContent.length() - 1));
+            this.azureUploadBlob.uploadFiles(String.format("after_normalize_%s", name), fileContent.substring(1, fileContent.length() - 1));
 
             int curr = atomicInteger.incrementAndGet();
 
-            if (curr % 10 == 0) {
+            if (curr % 100 == 0) {
                 log.info(String.format("finishing uploading file %s percentage", curr * 100.0/totalBlob));
             }
         });

@@ -1,5 +1,6 @@
 package edu.pitt.ir.controllers;
 
+import edu.pitt.ir.models.QueryResult;
 import edu.pitt.ir.services.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import java.util.List;
 public class TestController {
     private final TestService testService;
 
-    private static final int TOPK = 100;
+    private static final int TOPK = 50;
 
     @Autowired
     public TestController(final TestService testService) {
@@ -35,8 +36,13 @@ public class TestController {
         return this.testService.getRelevantResult(searchName);
     }
 
-    @GetMapping(value = "testQuery")
-    public List<String> getQueryResultList(@RequestParam("searchName") final String content) {
+    @GetMapping(value = "testFileName")
+    public List<String> getFileNameList(@RequestParam("searchName") final String content) {
+        return this.testService.getFileNameList(content, TOPK);
+    }
+
+    @GetMapping(value = "testQueryResult")
+    public List<QueryResult> getQueryResultList(@RequestParam("searchName") final String content) {
         return this.testService.getQueryResultList(content, TOPK);
     }
 
