@@ -1,6 +1,6 @@
 package edu.pitt.ir.services;
 
-import edu.pitt.ir.helpers.LuenceHelper.LuenceIndexReader;
+import edu.pitt.ir.helpers.LuceneHelper.LuceneIndexReader;
 import edu.pitt.ir.models.QueryResult;
 import edu.pitt.ir.repositories.TestRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -44,13 +44,13 @@ public class TestService {
     }
 
     public List<String> getFileNameList(String content, int topK) {
-        LuenceIndexReader luenceIndexReader = LuenceIndexReader.getInstance();
+        LuceneIndexReader luceneIndexReader = LuceneIndexReader.getInstance();
         content = content.replaceAll("%20", " ");
         return this.testRepositories.getScoreDocList(content, topK)
                 .stream().parallel()
                 .map(scoreDoc -> {
                     try {
-                        Document document = luenceIndexReader.searcher.doc(scoreDoc.doc);
+                        Document document = luceneIndexReader.searcher.doc(scoreDoc.doc);
                         return document.get("name");
                     } catch (IOException e) {
                         throw new NullPointerException("unable to find document");

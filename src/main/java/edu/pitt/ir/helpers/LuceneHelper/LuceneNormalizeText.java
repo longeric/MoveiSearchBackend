@@ -1,4 +1,4 @@
-package edu.pitt.ir.helpers.LuenceHelper;
+package edu.pitt.ir.helpers.LuceneHelper;
 
 import edu.pitt.ir.helpers.AzureHelper.AzureBlob;
 import lombok.extern.slf4j.Slf4j;
@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
-public class LuenceNormalizeText {
+public class LuceneNormalizeText {
 
     private final AzureBlob azureSearchBlob;
     private final AzureBlob azureUploadBlob;
     private final Analyzer analyzer;
 
-    public LuenceNormalizeText(String search_connectionString, String search_containerName,
+    public LuceneNormalizeText(String search_connectionString, String search_containerName,
                                String upload_connectionString, String upload_containerName,
                                Analyzer analyzer) {
         this.azureSearchBlob = new AzureBlob(search_connectionString, search_containerName);

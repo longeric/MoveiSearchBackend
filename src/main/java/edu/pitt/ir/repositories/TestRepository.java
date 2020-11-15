@@ -1,6 +1,6 @@
 package edu.pitt.ir.repositories;
 
-import edu.pitt.ir.helpers.LuenceHelper.LuenceIndexReader;
+import edu.pitt.ir.helpers.LuceneHelper.LuceneIndexReader;
 import edu.pitt.ir.models.QueryResult;
 import edu.pitt.ir.models.TestDAO;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ public class TestRepository {
     @Value("${spring.azure.containerName}")
     private String containerName;
 
-    private final LuenceIndexReader luenceIndexReader = LuenceIndexReader.getInstance();
+    private final LuceneIndexReader luceneIndexReader = LuceneIndexReader.getInstance();
 
     private final String[] results = {
             "Avengers: Endgame",
@@ -64,10 +64,10 @@ public class TestRepository {
     }
 
     public List<ScoreDoc> getScoreDocList(String content, int topK) {
-        return this.luenceIndexReader.searchContent(content, topK);
+        return this.luceneIndexReader.searchContent(content, topK);
     }
 
     public List<QueryResult> getQueryResultList(String content, int topK) {
-        return this.luenceIndexReader.searchSummary(this.getScoreDocList(content, topK));
+        return this.luceneIndexReader.searchSummary(this.getScoreDocList(content, topK));
     }
 }

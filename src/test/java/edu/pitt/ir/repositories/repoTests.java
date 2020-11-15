@@ -1,6 +1,6 @@
 package edu.pitt.ir.repositories;
 
-import edu.pitt.ir.helpers.LuenceHelper.LuenceIndexReader;
+import edu.pitt.ir.helpers.LuceneHelper.LuceneIndexReader;
 import edu.pitt.ir.models.QueryResult;
 import org.apache.lucene.search.ScoreDoc;
 import org.junit.Assert;
@@ -60,9 +60,9 @@ public class repoTests {
         int topK = 10;
         List<ScoreDoc> scoreDocList = this.testRepository.getScoreDocList(content, topK);
 
-        LuenceIndexReader luenceIndexReader = LuenceIndexReader.getInstance();
+        LuceneIndexReader luceneIndexReader = LuceneIndexReader.getInstance();
 
-        List<QueryResult> actualResult = luenceIndexReader.searchSummary(scoreDocList);
+        List<QueryResult> actualResult = luceneIndexReader.searchSummary(scoreDocList);
 
         Assert.assertEquals(actualResult.size(), 10);
 

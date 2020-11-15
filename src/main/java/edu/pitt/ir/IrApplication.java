@@ -1,9 +1,9 @@
 package edu.pitt.ir;
 
 import edu.pitt.ir.helpers.AzureHelper.AzureBlob;
-import edu.pitt.ir.helpers.LuenceHelper.LuenceIndexReader;
-import edu.pitt.ir.helpers.LuenceHelper.LuenceIndexWriter;
-import edu.pitt.ir.helpers.LuenceHelper.LuenceNormalizeText;
+import edu.pitt.ir.helpers.LuceneHelper.LuceneIndexReader;
+import edu.pitt.ir.helpers.LuceneHelper.LuceneIndexWriter;
+import edu.pitt.ir.helpers.LuceneHelper.LuceneNormalizeText;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -39,9 +39,9 @@ public class IrApplication {
 
 //    @PostConstruct
 //    public void normalize() {
-//        LuenceNormalizeText luenceNormalizeText = new LuenceNormalizeText(this.connectionString, this.containerName,
+//        LuceneNormalizeText luceneNormalizeText = new LuceneNormalizeText(this.connectionString, this.containerName,
 //                this.connectionString, this.containerAfterNormalizeName, analyzer);
-//        luenceNormalizeText.normalize();
+//        luceneNormalizeText.normalize();
 //    }
 
     @PostConstruct
@@ -50,9 +50,9 @@ public class IrApplication {
 
         AzureBlob azureBlobAfterNormalize = new AzureBlob(this.connectionString, this.containerAfterNormalizeName);
         AzureBlob azureBlob = new AzureBlob(this.connectionString, this.containerName);
-        LuenceIndexWriter luenceIndexWriter = new LuenceIndexWriter(azureBlobAfterNormalize, ramDirectory, analyzer);
-        luenceIndexWriter.createIndex();
+        LuceneIndexWriter luceneIndexWriter = new LuceneIndexWriter(azureBlobAfterNormalize, ramDirectory, analyzer);
+        luceneIndexWriter.createIndex();
 
-        LuenceIndexReader.getInstance(azureBlob, ramDirectory, analyzer);
+        LuceneIndexReader.getInstance(azureBlob, ramDirectory, analyzer);
     }
 }

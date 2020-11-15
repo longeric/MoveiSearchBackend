@@ -1,4 +1,4 @@
-package edu.pitt.ir.helpers.LuenceHelper;
+package edu.pitt.ir.helpers.LuceneHelper;
 
 import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.text.BreakIterator;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class LuenceIndexReader {
+public class LuceneIndexReader {
 
     private IndexReader indexReader;
     public final IndexSearcher searcher;
@@ -32,9 +32,9 @@ public class LuenceIndexReader {
     private Query query;
     private final AzureBlob azureBlob;
 
-    private static LuenceIndexReader luenceIndexReader = null;
+    private static LuceneIndexReader luceneIndexReader = null;
 
-    private LuenceIndexReader(AzureBlob azureBlob, RAMDirectory ramDirectory, Analyzer analyzer) {
+    private LuceneIndexReader(AzureBlob azureBlob, RAMDirectory ramDirectory, Analyzer analyzer) {
         this.azureBlob = azureBlob;
         this.analyzer = analyzer;
         try {
@@ -103,15 +103,15 @@ public class LuenceIndexReader {
     }
 
     public static void getInstance(AzureBlob azureBlob, RAMDirectory ramDirectory, Analyzer analyzer) {
-        if (luenceIndexReader == null)
-            luenceIndexReader = new LuenceIndexReader(azureBlob, ramDirectory, analyzer);
+        if (luceneIndexReader == null)
+            luceneIndexReader = new LuceneIndexReader(azureBlob, ramDirectory, analyzer);
     }
 
-    public static LuenceIndexReader getInstance() {
-        if (luenceIndexReader == null) {
+    public static LuceneIndexReader getInstance() {
+        if (luceneIndexReader == null) {
             throw new NullPointerException("unable to initialize index reader");
         }
 
-        return luenceIndexReader;
+        return luceneIndexReader;
     }
 }
