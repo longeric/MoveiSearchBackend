@@ -34,7 +34,7 @@ public class LuceneIndexReader {
 
     private static LuceneIndexReader luceneIndexReader = null;
     private static final int TITLE_START = 16;
-    private static final int FRAGMENT_SIZE = 50;
+    private static final int FRAGMENT_SIZE = 200;
 
     private LuceneIndexReader(AzureBlob azureBlob, RAMDirectory ramDirectory, Analyzer analyzer) {
         this.azureBlob = azureBlob;
