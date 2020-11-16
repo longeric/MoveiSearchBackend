@@ -34,7 +34,8 @@ public class LuceneNormalizeText {
 
         AtomicInteger atomicInteger = new AtomicInteger(0);
         blobNames.stream().parallel().forEach(name -> {
-            String content = this.azureSearchBlob.readFiles(name);
+            String titleAndContent = this.azureSearchBlob.readFiles(name);
+            String content = titleAndContent.split("\n")[1];
 
             List<String> tokens = new ArrayList<>();
 

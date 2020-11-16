@@ -1,6 +1,7 @@
 package edu.pitt.ir.repositories;
 
 import edu.pitt.ir.helpers.LuceneHelper.LuceneIndexReader;
+import edu.pitt.ir.models.DocumentDAO;
 import edu.pitt.ir.models.QueryResult;
 import edu.pitt.ir.models.TestDAO;
 import lombok.extern.slf4j.Slf4j;
@@ -63,11 +64,11 @@ public class TestRepository {
                 .collect(Collectors.toList());
     }
 
-    public List<ScoreDoc> getScoreDocList(String content, int topK) {
-        return this.luceneIndexReader.searchContent(content, topK);
+    public List<DocumentDAO> getDocumentList(String content, int topK) {
+        return this.luceneIndexReader.searchDocument(content, topK);
     }
 
     public List<QueryResult> getQueryResultList(String content, int topK) {
-        return this.luceneIndexReader.searchSummary(this.getScoreDocList(content, topK));
+        return this.luceneIndexReader.searchSummary(this.getDocumentList(content, topK));
     }
 }

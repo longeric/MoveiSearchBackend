@@ -1,8 +1,8 @@
 package edu.pitt.ir.repositories;
 
 import edu.pitt.ir.helpers.LuceneHelper.LuceneIndexReader;
+import edu.pitt.ir.models.DocumentDAO;
 import edu.pitt.ir.models.QueryResult;
-import org.apache.lucene.search.ScoreDoc;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,7 +49,7 @@ public class repoTests {
     public void test_GetScoreDocList() {
         String content = "I am batman";
         int topK = 10;
-        List<ScoreDoc> actualResult = this.testRepository.getScoreDocList(content, topK);
+        List<DocumentDAO> actualResult = this.testRepository.getDocumentList(content, topK);
 
         Assert.assertEquals(actualResult.size(), topK);
     }
@@ -58,11 +58,11 @@ public class repoTests {
     public void test_GetQueryResultList() {
         String content = "I am batman";
         int topK = 10;
-        List<ScoreDoc> scoreDocList = this.testRepository.getScoreDocList(content, topK);
+        List<DocumentDAO> documentDAOList = this.testRepository.getDocumentList(content, topK);
 
         LuceneIndexReader luceneIndexReader = LuceneIndexReader.getInstance();
 
-        List<QueryResult> actualResult = luceneIndexReader.searchSummary(scoreDocList);
+        List<QueryResult> actualResult = luceneIndexReader.searchSummary(documentDAOList);
 
         Assert.assertEquals(actualResult.size(), 10);
 
