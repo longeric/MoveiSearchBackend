@@ -83,7 +83,7 @@ public class LuceneIndexReader {
 
         highlighter.setTextFragmenter(simpleFragmenter);
 
-        documentDAOList.parallelStream().forEach( documentDAO-> {
+        documentDAOList.forEach( documentDAO-> {
             this.getQueryResultList(highlighter, documentDAO, queryResultList);
         });
 
