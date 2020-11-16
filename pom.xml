@@ -70,6 +70,12 @@
             <version>${lucene.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-highlighter</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+
 <!--        Azure Config-->
         <dependency>
             <groupId>com.microsoft.azure</groupId>
@@ -83,6 +89,13 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <dependency>
+            <groupId>com.ibm.icu</groupId>
+            <artifactId>icu4j</artifactId>
+            <version>61.1</version>
+        </dependency>
+
 
     </dependencies>
 

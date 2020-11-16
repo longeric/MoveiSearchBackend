@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -30,7 +29,7 @@ public class AzureBlob {
         String res = "cannot find fine";
 
         try {
-            res = Arrays.toString(azureBlob.downloadText().split("\\W+"));
+            res = azureBlob.downloadText();
         } catch (StorageException e) {
             log.error("invalid file name");
         } catch (IOException e) {

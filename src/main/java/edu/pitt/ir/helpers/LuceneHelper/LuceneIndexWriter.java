@@ -1,4 +1,4 @@
-package edu.pitt.ir.helpers.LuenceHelper;
+package edu.pitt.ir.helpers.LuceneHelper;
 
 
 import edu.pitt.ir.helpers.AzureHelper.AzureBlob;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class LuenceIndexWriter {
+public class LuceneIndexWriter {
 
     private final List<Document> documentList;
     private IndexWriter indexWriter;
@@ -24,7 +24,7 @@ public class LuenceIndexWriter {
     public final RAMDirectory ramDirectory;
 
 
-    public LuenceIndexWriter(AzureBlob azureBlob, RAMDirectory ramDirectory, Analyzer analyzer) {
+    public LuceneIndexWriter(AzureBlob azureBlob, RAMDirectory ramDirectory, Analyzer analyzer) {
         this.azureBlob = azureBlob;
         this.ramDirectory = ramDirectory;
         this.documentList = new ArrayList<>();
