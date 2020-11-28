@@ -62,7 +62,7 @@ public class LuceneIndexReader {
         List<DocumentDAO> documentDAOList = new ArrayList<>();
         try {
             this.query = queryParser.parse(content);
-            TopDocs topDocs = this.searcher.search(this.query, topK * 2);
+            TopDocs topDocs = this.searcher.search(this.query, topK);
             Arrays.stream(topDocs.scoreDocs).parallel().forEach(ScoreDoc -> {
                 String title = this.getDocName(ScoreDoc);
                 DocumentDAO documentDAO = new DocumentDAO(title, ScoreDoc.score);
@@ -99,7 +99,7 @@ public class LuceneIndexReader {
             return hammingDistance(contentO2) - hammingDistance(contentO1) == 0 ? Float.compare(o2.getScore(), o1.getScore()) :
                     hammingDistance(contentO2) - hammingDistance(contentO1);
         }));
-        return queryResultList.subList(0, 50);
+        return queryResultList;
     }
 
     private String changeContent(QueryResult queryResult) {

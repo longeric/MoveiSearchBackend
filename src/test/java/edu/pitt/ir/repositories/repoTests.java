@@ -54,17 +54,17 @@ public class repoTests {
         Assert.assertEquals(actualResult.size(), topK);
     }
 
-    @Test
-    public void test_GetQueryResultList() {
-        String content = "I am batman";
-        int topK = 10;
-        List<DocumentDAO> documentDAOList = this.testRepository.getDocumentList(content, topK);
-
-        LuceneIndexReader luceneIndexReader = LuceneIndexReader.getInstance();
-
-        List<QueryResult> actualResult = luceneIndexReader.searchSummary(documentDAOList);
-
-        Assert.assertEquals(actualResult.size(), 10);
-
-    }
+//    @Test
+//    public void test_GetQueryResultList() {
+//        String content = "I am batman";
+//        int topK = 10;
+//        List<DocumentDAO> documentDAOList = this.testRepository.getDocumentList(content, topK);
+//
+//        LuceneIndexReader luceneIndexReader = LuceneIndexReader.getInstance();
+//
+//        List<QueryResult> actualResult = luceneIndexReader.searchSummary(documentDAOList);
+//
+//        Assert.assertEquals(actualResult.size(), 10);
+//
+//    }
 }
