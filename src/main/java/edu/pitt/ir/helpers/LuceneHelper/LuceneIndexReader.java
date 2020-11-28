@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class LuceneIndexReader {
@@ -31,6 +33,7 @@ public class LuceneIndexReader {
     private final Analyzer analyzer;
     private Query query;
     private final AzureBlob azureBlob;
+    private String search;
 
     private static LuceneIndexReader luceneIndexReader = null;
     private static final int TITLE_START = 16;
@@ -53,12 +56,13 @@ public class LuceneIndexReader {
     }
 
     public List<DocumentDAO> searchDocument(String content, int topK) {
+        this.search = content;
         QueryParser queryParser = new QueryParser("content", analyzer);
 
         List<DocumentDAO> documentDAOList = new ArrayList<>();
         try {
             this.query = queryParser.parse(content);
-            TopDocs topDocs = this.searcher.search(this.query, topK);
+            TopDocs topDocs = this.searcher.search(this.query, topK * 2);
             Arrays.stream(topDocs.scoreDocs).parallel().forEach(ScoreDoc -> {
                 String title = this.getDocName(ScoreDoc);
                 DocumentDAO documentDAO = new DocumentDAO(title, ScoreDoc.score);
@@ -83,13 +87,64 @@ public class LuceneIndexReader {
 
         highlighter.setTextFragmenter(simpleFragmenter);
 
-        documentDAOList.forEach( documentDAO-> {
+        documentDAOList.forEach(documentDAO -> {
             this.getQueryResultList(highlighter, documentDAO, queryResultList);
         });
 
-        queryResultList.sort(((o1, o2) -> Float.compare(o2.getScore(), o1.getScore())));
-        return queryResultList;
+//        queryResultList.sort(((o1, o2) -> Float.compare(o2.getScore(), o1.getScore())));
+        queryResultList.sort(((o1, o2) -> {
+            String contentO1 = this.changeContent(o1);
+            String contentO2 = this.changeContent(o2);
+
+            return hammingDistance(contentO2) - hammingDistance(contentO1) == 0 ? Float.compare(o2.getScore(), o1.getScore()) :
+                    hammingDistance(contentO2) - hammingDistance(contentO1);
+        }));
+        return queryResultList.subList(0, 50);
     }
+
+    private String changeContent(QueryResult queryResult) {
+        String[] contents = queryResult.getContent()
+                .replaceAll("<strong>", "").replaceAll("</strong>", "")
+                .toLowerCase().split("\\W+");
+
+        String[] searchArray = this.search.toLowerCase().split("\\W+");
+
+        HashSet<String> searchWords = Arrays.stream(searchArray).collect(Collectors.toCollection(HashSet::new));
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String content : contents) {
+            stringBuilder.append(searchWords.contains(content) ? 1 : 0);
+        }
+
+        return stringBuilder.toString();
+
+    }
+
+    private int hammingDistance(String content) {
+//        String expectedContent = this.convertContent(content);
+        int i = 0, count = 0, maxCount = 0;
+        while (i < content.length()) {
+            if (content.charAt(i) == '0') {
+                maxCount = Math.max(count, maxCount);
+                count = 0;
+            } else {
+                count++;
+            }
+            i++;
+        }
+        return maxCount;
+    }
+
+//    private String convertContent(String content) {
+//        int length = content.length();
+//
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (int i = 0; i < length; i++) {
+//            stringBuilder.append(1);
+//        }
+//
+//        return stringBuilder.toString();
+//    }
 
     private void getQueryResultList(Highlighter highlighter, DocumentDAO documentDAO, List<QueryResult> queryResultList) {
         try {
