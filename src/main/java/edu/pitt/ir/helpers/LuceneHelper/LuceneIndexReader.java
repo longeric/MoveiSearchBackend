@@ -92,14 +92,14 @@ public class LuceneIndexReader {
         });
 
 //        queryResultList.sort(((o1, o2) -> Float.compare(o2.getScore(), o1.getScore())));
-        queryResultList.sort(((o1, o2) -> {
-            String contentO1 = this.changeContent(o1);
-            String contentO2 = this.changeContent(o2);
+        return queryResultList.stream().parallel()
+                .filter(queryResult -> queryResult.getContent() != null).sorted(((o1, o2) -> {
+                    String contentO1 = this.changeContent(o1);
+                    String contentO2 = this.changeContent(o2);
 
-            return hammingDistance(contentO2) - hammingDistance(contentO1) == 0 ? Float.compare(o2.getScore(), o1.getScore()) :
-                    hammingDistance(contentO2) - hammingDistance(contentO1);
-        }));
-        return queryResultList;
+                    return hammingDistance(contentO2) - hammingDistance(contentO1) == 0 ? Float.compare(o2.getScore(), o1.getScore()) :
+                            hammingDistance(contentO2) - hammingDistance(contentO1);
+                })).collect(Collectors.toList());
     }
 
     private String changeContent(QueryResult queryResult) {
